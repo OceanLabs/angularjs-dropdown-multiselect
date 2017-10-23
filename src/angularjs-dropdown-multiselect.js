@@ -267,7 +267,12 @@ directiveModule.directive('ngDropdownMultiselect', ['$filter', '$document', '$co
 						if (totalSelected === 0) {
 							return $scope.texts.buttonDefaultText;
 						} else {
-							return totalSelected + ' ' + $scope.texts.dynamicButtonTextSuffix;
+							if ($scope.singleSelection && totalSelected) {
+								return $scope.selectedModel[$scope.settings.displayProp] + ' ' + $scope.texts.dynamicButtonTextSuffix;
+							}
+							else{
+									return totalSelected + ' ' + $scope.texts.dynamicButtonTextSuffix;
+							}
 						}
 					}
 				} else {
