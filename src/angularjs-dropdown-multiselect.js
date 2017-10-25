@@ -2,6 +2,9 @@
 
 var directiveModule = angular.module('angularjs-dropdown-multiselect', []);
 
+var interpolateStart = '[[';
+var interpolateEnd = ']]';
+
 directiveModule.directive('mfDropdownStaticInclude', ['$compile', function($compile) {
 	return function(scope, element, attrs) {
 		var template = attrs.mfDropdownStaticInclude;
@@ -28,22 +31,22 @@ directiveModule.directive('ngDropdownMultiselect', ['$filter', '$document', '$co
 			var groups = attrs.groupBy ? true : false;
 
 			var template = '<div class="multiselect-parent btn-group dropdown-multiselect" ng-class="{open: open}">';
-			template += '<button ng-disabled="disabled" type="button" class="dropdown-toggle" ng-class="settings.buttonClasses" ng-click="toggleDropdown()">{{getButtonText()}}&nbsp;<span class="caret"></span></button>';
+			template += '<button ng-disabled="disabled" type="button" class="dropdown-toggle" ng-class="settings.buttonClasses" ng-click="toggleDropdown()">' + interpolateStart + 'getButtonText()' + interpolateEnd + '&nbsp;<span class="caret"></span></button>';
 			template += '<ul class="dropdown-menu dropdown-menu-form" ng-if="open" ng-style="{display: open ? \'block\' : \'none\', height : settings.scrollable ? settings.scrollableHeight : \'auto\', overflow: \'auto\' }" >';
-			template += '<li ng-if="settings.showCheckAll && settings.selectionLimit !== 1"><a ng-keydown="keyDownLink($event)" data-ng-click="selectAll()" tabindex="-1" id="selectAll"><span class="glyphicon glyphicon-ok"></span>  {{texts.checkAll}}</a>';
-			template += '<li ng-if="settings.showUncheckAll"><a ng-keydown="keyDownLink($event)" data-ng-click="deselectAll();" tabindex="-1" id="deselectAll"><span class="glyphicon glyphicon-remove"></span>   {{texts.uncheckAll}}</a></li>';
+			template += '<li ng-if="settings.showCheckAll && settings.selectionLimit !== 1"><a ng-keydown="keyDownLink($event)" data-ng-click="selectAll()" tabindex="-1" id="selectAll"><span class="glyphicon glyphicon-ok"></span>  ' + interpolateStart + 'texts.checkAll' + interpolateEnd + '</a>';
+			template += '<li ng-if="settings.showUncheckAll"><a ng-keydown="keyDownLink($event)" data-ng-click="deselectAll();" tabindex="-1" id="deselectAll"><span class="glyphicon glyphicon-remove"></span>   ' + interpolateStart + 'texts.uncheckAll' + interpolateEnd + '</a></li>';
 			template += '<li ng-if="settings.selectByGroups && ((settings.showCheckAll && settings.selectionLimit > 0) || settings.showUncheckAll)" class="divider"></li>';
 			template += '<li ng-if="settings.selectByGroups && ((settings.showCheckAll && settings.selectionLimit > 0) || settings.showUncheckAll)" class="divider"></li>';
-			template += '<li ng-repeat="currentGroup in settings.selectByGroups track by $index" ng-click="selectCurrentGroup(currentGroup)"><a ng-class="{\'dropdown-selected-group\': selectedGroup === currentGroup}" tabindex="-1">{{::texts.selectGroup}} {{::getGroupLabel(currentGroup)}}</a></li>';
+			template += '<li ng-repeat="currentGroup in settings.selectByGroups track by $index" ng-click="selectCurrentGroup(currentGroup)"><a ng-class="{\'dropdown-selected-group\': selectedGroup === currentGroup}" tabindex="-1">' + interpolateStart + '::texts.selectGroup' + interpolateEnd + ' ' + interpolateStart + '::getGroupLabel(currentGroup)' + interpolateEnd + '</a></li>';
 			template += '<li ng-if="settings.selectByGroups && settings.showEnableSearchButton" class="divider"></li>';
-			template += '<li ng-if="settings.showEnableSearchButton && settings.enableSearch"><a ng-keydown="keyDownLink($event); keyDownToggleSearch();" ng-click="toggleSearch($event);" tabindex="-1">{{texts.disableSearch}}</a></li>';
-			template += '<li ng-if="settings.showEnableSearchButton && !settings.enableSearch"><a ng-keydown="keyDownLink($event); keyDownToggleSearch();" ng-click="toggleSearch($event);" tabindex="-1">{{texts.enableSearch}}</a></li>';
+			template += '<li ng-if="settings.showEnableSearchButton && settings.enableSearch"><a ng-keydown="keyDownLink($event); keyDownToggleSearch();" ng-click="toggleSearch($event);" tabindex="-1">' + interpolateStart + 'texts.disableSearch' + interpolateEnd + '</a></li>';
+			template += '<li ng-if="settings.showEnableSearchButton && !settings.enableSearch"><a ng-keydown="keyDownLink($event); keyDownToggleSearch();" ng-click="toggleSearch($event);" tabindex="-1">' + interpolateStart + 'texts.enableSearch' + interpolateEnd + '</a></li>';
 			template += '<li ng-if="(settings.showCheckAll && settings.selectionLimit > 0) || settings.showUncheckAll || settings.showEnableSearchButton" class="divider"></li>';
-			template += '<li ng-if="settings.enableSearch"><div class="dropdown-header"><input type="text" class="form-control searchField" ng-keydown="keyDownSearchDefault($event); keyDownSearch($event, input.searchFilter);" ng-style="{width: \'100%\'}" ng-model="input.searchFilter" placeholder="{{texts.searchPlaceholder}}" /></li>';
+			template += '<li ng-if="settings.enableSearch"><div class="dropdown-header"><input type="text" class="form-control searchField" ng-keydown="keyDownSearchDefault($event); keyDownSearch($event, input.searchFilter);" ng-style="{width: \'100%\'}" ng-model="input.searchFilter" placeholder="' + interpolateStart + 'texts.searchPlaceholder' + interpolateEnd + '" /></li>';
 			template += '<li ng-if="settings.enableSearch" class="divider"></li>';
 
 			if (groups) {
-				template += '<li ng-repeat-start="option in orderedItems | filter:getFilter(input.searchFilter)" ng-show="getPropertyForObject(option, settings.groupBy) !== getPropertyForObject(orderedItems[$index - 1], settings.groupBy)" role="presentation" class="dropdown-header">{{ getGroupLabel(getPropertyForObject(option, settings.groupBy)) }}</li>';
+				template += '<li ng-repeat-start="option in orderedItems | filter:getFilter(input.searchFilter)" ng-show="getPropertyForObject(option, settings.groupBy) !== getPropertyForObject(orderedItems[$index - 1], settings.groupBy)" role="presentation" class="dropdown-header">' + interpolateStart + ' getGroupLabel(getPropertyForObject(option, settings.groupBy)) ' + interpolateEnd + '</li>';
 				template += '<li ng-class="{\'active\': isChecked(getPropertyForObject(option,settings.idProp)) && settings.styleActive}" ng-repeat-end role="presentation">';
 			} else {
 				template += '<li ng-class="{\'active\': isChecked(getPropertyForObject(option,settings.idProp)) && settings.styleActive}" role="presentation" ng-repeat="option in options | filter:getFilter(input.searchFilter)">';
@@ -52,15 +55,15 @@ directiveModule.directive('ngDropdownMultiselect', ['$filter', '$document', '$co
 			template += '<a ng-keydown="option.disabled || keyDownLink($event)" role="menuitem" class="option" tabindex="-1" ng-click="option.disabled || setSelectedItem(getPropertyForObject(option,settings.idProp), false, true)" ng-disabled="option.disabled">';
 
 			if (checkboxes) {
-				template += '<div class="checkbox"><label><input class="checkboxInput" type="checkbox" ng-click="checkboxClick($event, getPropertyForObject(option,settings.idProp))" ng-checked="isChecked(getPropertyForObject(option,settings.idProp))" /> <span mf-dropdown-static-include="{{settings.template}}"></div></label></span></a>';
+				template += '<div class="checkbox"><label><input class="checkboxInput" type="checkbox" ng-click="checkboxClick($event, getPropertyForObject(option,settings.idProp))" ng-checked="isChecked(getPropertyForObject(option,settings.idProp))" /> <span mf-dropdown-static-include="' + interpolateStart + 'settings.template' + interpolateEnd + '"></div></label></span></a>';
 			} else {
-				template += '<span data-ng-class="{\'glyphicon glyphicon-ok\': isChecked(getPropertyForObject(option,settings.idProp))}"> </span> <span mf-dropdown-static-include="{{settings.template}}"></span></a>';
+				template += '<span data-ng-class="{\'glyphicon glyphicon-ok\': isChecked(getPropertyForObject(option,settings.idProp))}"> </span> <span mf-dropdown-static-include="' + interpolateStart + 'settings.template' + interpolateEnd + '"></span></a>';
 			}
 
 			template += '</li>';
 
 			template += '<li class="divider" ng-show="settings.selectionLimit > 1"></li>';
-			template += '<li role="presentation" ng-show="settings.selectionLimit > 1"><a role="menuitem">{{selectedModel.length}} {{texts.selectionOf}} {{settings.selectionLimit}} {{texts.selectionCount}}</a></li>';
+			template += '<li role="presentation" ng-show="settings.selectionLimit > 1"><a role="menuitem">' + interpolateStart + 'selectedModel.length' + interpolateEnd + ' ' + interpolateStart + 'texts.selectionOf' + interpolateEnd + ' ' + interpolateStart + 'settings.selectionLimit' + interpolateEnd + ' ' + interpolateStart + 'texts.selectionCount' + interpolateEnd + '</a></li>';
 
 			template += '</ul>';
 			template += '</div>';
