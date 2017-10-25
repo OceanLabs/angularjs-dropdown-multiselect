@@ -127,7 +127,7 @@ directiveModule.directive('ngDropdownMultiselect', ['$filter', '$document', '$co
 				smartButtonTextConverter: angular.noop,
 				styleActive: false,
 				keyboardControls: false,
-				template: '{{getPropertyForObject(option, settings.displayProp)}}',
+				template: interpolateStart + 'getPropertyForObject(option, settings.displayProp)' + interpolateEnd,
 				searchField: '$'
 			};
 
