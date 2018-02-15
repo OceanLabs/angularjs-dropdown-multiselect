@@ -2,8 +2,8 @@
 
 var directiveModule = angular.module('angularjs-dropdown-multiselect', []);
 
-var interpolateStart = '[[';
-var interpolateEnd = ']]';
+var interpolateStart = '{{';
+var interpolateEnd = '}}';
 
 directiveModule.directive('mfDropdownStaticInclude', ['$compile', function($compile) {
 	return function(scope, element, attrs) {
